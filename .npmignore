@@ -1,0 +1,10 @@
+__tests__
+example
+src
+static
+
+tslint.json
+jest.config.js
+lint-staged.config.js
+webpack.dev.js
+webpack.config.js
