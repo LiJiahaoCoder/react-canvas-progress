@@ -1,0 +1,74 @@
+{
+  "name": "react-canvas-progress",
+  "version": "0.1.0",
+  "description": "Simple progress component for react",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "NODE_ENV=test jest",
+    "commit": "git-cz",
+    "start": "webpack-dev-server --config ./webpack.dev.js",
+    "build": "rimraf lib && webpack --config ./webpack.config.js && yarn movedts",
+    "movedts": "cp lib/src/index.d.ts lib/index.d.ts && rimraf lib/src",
+    "publish": "yarn build && yarn publish"
+  },
+  "author": "Jiahao Li",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "canvas",
+    "progress"
+  ],
+  "bugs": {
+    "url": "https://github.com/LiJiahaoCoder/react-canvas-progress/issues"
+  },
+  "homepage": "https://github.com/LiJiahaoCoder/react-canvas-progress#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.11.0",
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
+    "@types/jest": "^26.0.9",
+    "@types/react": "^16.9.44",
+    "@types/react-dom": "^16.9.8",
+    "awesome-typescript-loader": "^5.2.1",
+    "chalk": "^4.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^4.2.1",
+    "cz-conventional-changelog": "^3.2.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "html-webpack-plugin": "^4.3.0",
+    "husky": "^4.2.5",
+    "jest": "^26.2.2",
+    "lint-staged": "^10.2.11",
+    "progress-bar-webpack-plugin": "^2.1.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "rimraf": "^3.0.2",
+    "source-map-loader": "^1.0.1",
+    "style-loader": "^1.2.1",
+    "ts-jest": "^26.1.4",
+    "tslint": "^6.1.3",
+    "tslint-loader": "^3.5.4",
+    "typescript": "^3.9.7",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

@@ -1,0 +1,13 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.click-group {
+  display: flex;
+  justify-content: space-around;
+}
