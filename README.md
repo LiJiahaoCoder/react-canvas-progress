@@ -32,7 +32,7 @@ ReactDOM.render(
 | Option                | Type                  | Required | Description                                                 |
 | --------------------- | --------------------- | -------- | ----------------------------------------------------------- |
 | percentage            | `number`              | true     | Percentage value, range $[0, 100]$                          |
-| unit                  | `vw | px`             | false    | Unit of canvas size, default is vw                          |
+| unit                  | `string`              | false    | Unit of canvas size, default is vw                          |
 | startAngle            | `number`              | false    | **Radian** of start angle(**not degree**), default is $\pi$ |
 | endAngle              | `number`              | false    | **Radian** of end angle(**not degree**), default is $0$     |
 | speed                 | `number`              | false    | Speed of animation, default increase $1%$ per frame         |
