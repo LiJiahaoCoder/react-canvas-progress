@@ -1,6 +1,4 @@
-export const PI = Math.PI;
-
-export const round = Math.round;
+export const { PI, round } = Math;
 
 export const computeCos = (startAngle: number, endAngle: number) => Math.cos((endAngle - startAngle) / 2);
 

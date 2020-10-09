@@ -55,7 +55,7 @@ ReactDOM.render(
 
 ![description](./static/description.png)
 
-The angles of start and end are the same as arc function in canvas 2d. And now is *version 0.1.0*, there ars still many features to be developed.
+The angles of start and end are the same as arc function in canvas 2d. And now is *version 0.1.0*, there are still many features to be developed.
 
 ## Todo
 

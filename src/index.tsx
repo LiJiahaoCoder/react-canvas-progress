@@ -2,33 +2,16 @@ import React, { useRef, useEffect } from 'react';
 import {
   round,
   vwToPx,
+  computeCos,
   computeCurrentPercentage,
   computeCurrentAngle,
-  computeCos,
-  computeRadius,
   computeHeight,
+  computeRadius,
 } from './utils';
+import Default from './default';
 
 const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
-const cancelAnimationFrame = window.cancelAnimationFrame;
-const Default = {
-  type: 'arc',
-  startAngle: Math.PI,
-  endAngle: 0,
-  unit: 'vw',
-  width: 100,
-  speed: 1,
-  animation: true,
-  lineWidth: 1,
-  bgColor: '#fff',
-  font: 'serif',
-  fontColor: '#468af6',
-  fontSize: 8,
-  withBaseProgressColor: true,
-  baseProgressColor: '#ddd',
-  progressColor: '#468af6',
-  ratio: 2, // width / height
-};
+// const cancelAnimationFrame = window.cancelAnimationFrame;
 
 export interface Props {
   percentage: number;
@@ -53,15 +36,17 @@ export interface Props {
 }
 
 const ReactCanvasProcessor: React.FC<Props> = ({
+  text,
+  style,
+  height,
+  className,
   percentage,
   unit = Default.unit,
-  height,
   width = Default.width,
   startAngle = Default.startAngle,
   endAngle = Default.endAngle,
   speed = Default.speed,
   animation = Default.animation,
-  text,
   font = Default.font,
   fontSize = Default.fontSize,
   fontColor = Default.fontColor,
@@ -70,10 +55,10 @@ const ReactCanvasProcessor: React.FC<Props> = ({
   progressColor = Default.progressColor,
   withBaseProgressColor = Default.withBaseProgressColor,
   baseProgressColor = Default.baseProgressColor,
-  style,
-  className,
 }) => {
   let ctx: CanvasRenderingContext2D;
+  let currentPercentage = 0;
+  const cos = computeCos(startAngle, endAngle);
   const canvas = useRef<HTMLCanvasElement>(null);
   const _width = round(unit === 'px' ? width : vwToPx(width));
   const _height = round(
@@ -82,11 +67,9 @@ const ReactCanvasProcessor: React.FC<Props> = ({
     height ? vwToPx(height) : vwToPx(width) / Default.ratio,
   );
   const _lineWidth = round(unit === 'px' ? lineWidth : vwToPx(lineWidth));
-  const cos = computeCos(startAngle, endAngle);
   const _radius = computeRadius(_width, _height, cos);
   const _x = _width / 2;
   const _y = computeHeight(_height, _radius, startAngle, endAngle);
-  let _currentPercentage = 0;
 
   useEffect(() => {
     ctx = canvas.current!.getContext('2d')!;
@@ -99,6 +82,16 @@ const ReactCanvasProcessor: React.FC<Props> = ({
     ctx.save();
     draw();
   }, [percentage]);
+
+  const draw = () => {
+    clear();
+    fillBackground();
+    drawBaseProgress();
+    drawProgress();
+    showText();
+    if (currentPercentage === percentage) return;
+    requestAnimationFrame(draw);
+  };
 
   const clear = () => {
     ctx.clearRect(0, 0, _width, _height);
@@ -127,34 +120,24 @@ const ReactCanvasProcessor: React.FC<Props> = ({
   };
 
   const drawProgress = () => {
-    _currentPercentage = computeCurrentPercentage(
+    currentPercentage = computeCurrentPercentage(
       percentage,
-      animation ? _currentPercentage : percentage,
+      animation ? currentPercentage : percentage,
       speed,
     );
-    const _currentAngle = computeCurrentAngle(startAngle, endAngle, _currentPercentage);
+    const _currentAngle = computeCurrentAngle(startAngle, endAngle, currentPercentage);
 
     strokeArc(_currentAngle, progressColor);
   };
 
   const showText = () => {
     const _fontSize = unit === 'px' ? fontSize : vwToPx(fontSize);
-    const _text = text || `${Number(_currentPercentage * 100).toFixed(2)}%`;
+    const _text = text || `${Number(currentPercentage * 100).toFixed(2)}%`;
     ctx.font = `${_fontSize}px ${font}`;
     ctx.fillStyle = fontColor;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(_text, _x, _y);
-  };
-
-  const draw = () => {
-    clear();
-    fillBackground();
-    drawBaseProgress();
-    drawProgress();
-    showText();
-    if (_currentPercentage === percentage) return;
-    requestAnimationFrame(draw);
   };
 
   return <div className={className} style={style}>
