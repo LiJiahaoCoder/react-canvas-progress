@@ -53,7 +53,7 @@ ReactDOM.render(
 
 ## Description
 
-![description](./static/description.png)
+![description](https://raw.githubusercontent.com/LiJiahaoCoder/react-canvas-progress/master/static/description.png)
 
 The angles of start and end are the same as arc function in canvas 2d. And now is *version 0.1.0*, there are still many features to be developed.
 

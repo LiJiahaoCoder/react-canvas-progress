@@ -3,3 +3,4 @@ node_modules
 .vs
 .vscode
 npm-debug.log
+yarn-error.log
