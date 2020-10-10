@@ -72,11 +72,11 @@
     "dist"
   ],
   "files": [
-    "src/index.tsx",
-    "src/utils.ts"
+    "src/*",
+    "example/*",
   ],
   "include": [
     "src/*",
-    "example/*"
+    "example/*", "src/utils/index.ts", "src/hooks/useCache.ts"
   ]
 }

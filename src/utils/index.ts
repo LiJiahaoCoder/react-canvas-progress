@@ -1,9 +1,13 @@
-export const { PI, round } = Math;
+export const { PI, round, min, max, abs } = Math;
+
+export const EPCILON = 0.00001;
+
+export const equal = (a: number, b: number): boolean => abs(a - b) <= EPCILON;
 
 export const computeCos = (startAngle: number, endAngle: number) => Math.cos((endAngle - startAngle) / 2);
 
 export const computeRadius = (width: number, height: number, cos: number) => {
-  return 0.9 * Math.min(width, height) / (1 + cos);
+  return 0.9 * min(width, height) / (1 + cos);
 };
 
 export const computeHeight = (height: number, r: number, startAngle: number, endAngle: number) => {
@@ -13,12 +17,15 @@ export const computeHeight = (height: number, r: number, startAngle: number, end
 };
 
 export const computeCurrentPercentage = (percentage: number, current: number, speed: number) => {
-  speed = speed / 100;
-  current += speed;
-  const _percentage = Math.min(percentage / 100, 1.0);
-  const _current = Math.min(current, 1.0);
+  const currentOfHundred = current * 100;
+  if (equal(percentage, currentOfHundred)) return current;
 
-  return Math.min(_current, _percentage);
+  speed = speed / 100;
+  current = percentage > currentOfHundred ? current + speed : current - speed;
+  const _percentage = min(percentage / 100, 1.0);
+  const _current = min(current, 1.0);
+
+  return percentage > currentOfHundred ? min(_current, _percentage) : max(_current, _percentage);
 };
 
 export const computeCurrentAngle = (

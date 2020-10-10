@@ -62,6 +62,6 @@ The angles of start and end are the same as arc function in canvas 2d. And now i
 - [ ] Support line progress bar.
 - [ ] Support gradient color of progress bar.
 - [ ] Support description text.
-- [ ] Support dynamic percentage.
+- [x] Support dynamic percentage.
 - [ ] Support lifecycle callback.
 - [ ] Support padding style of canvas.

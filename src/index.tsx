@@ -1,5 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import { useCache } from './hooks/useCache';
 import {
+  equal,
   round,
   vwToPx,
   computeCos,
@@ -11,7 +13,7 @@ import {
 import Default from './default';
 
 const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
-// const cancelAnimationFrame = window.cancelAnimationFrame;
+const cancelAnimationFrame = window.cancelAnimationFrame;
 
 export interface Props {
   percentage: number;
@@ -37,8 +39,8 @@ export interface Props {
 
 const ReactCanvasProcessor: React.FC<Props> = ({
   text,
-  style,
   height,
+  style,
   className,
   percentage,
   unit = Default.unit,
@@ -58,8 +60,12 @@ const ReactCanvasProcessor: React.FC<Props> = ({
 }) => {
   let ctx: CanvasRenderingContext2D;
   let currentPercentage = 0;
+
+  const { cache, setCache } = useCache();
+  const [ handler, setHandler ] = useState(-1);
   const cos = computeCos(startAngle, endAngle);
   const canvas = useRef<HTMLCanvasElement>(null);
+
   const _width = round(unit === 'px' ? width : vwToPx(width));
   const _height = round(
     unit === 'px' ?
@@ -75,22 +81,22 @@ const ReactCanvasProcessor: React.FC<Props> = ({
     ctx = canvas.current!.getContext('2d')!;
     ctx.save();
     draw();
-  }, []);
-
-  useEffect(() => {
-    ctx = canvas.current!.getContext('2d')!;
-    ctx.save();
-    draw();
+    currentPercentage = cache.percentage;
   }, [percentage]);
 
   const draw = () => {
     clear();
+
     fillBackground();
     drawBaseProgress();
     drawProgress();
     showText();
-    if (currentPercentage === percentage) return;
-    requestAnimationFrame(draw);
+
+    if (equal(percentage, currentPercentage * 100)) {
+      return cancelAnimationFrame(handler);
+    }
+
+    setHandler(requestAnimationFrame(draw));
   };
 
   const clear = () => {
@@ -100,15 +106,18 @@ const ReactCanvasProcessor: React.FC<Props> = ({
   const fillBackground = () => {
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, _width, _height);
+
     ctx.restore();
   };
 
   const strokeArc = (angle: number, color: string) => {
     ctx.beginPath();
+
     ctx.lineWidth = _lineWidth;
     ctx.strokeStyle = color;
     ctx.arc(_x, _y, _radius, startAngle, angle);
     ctx.stroke();
+
     ctx.closePath();
     ctx.restore();
   };
@@ -125,9 +134,12 @@ const ReactCanvasProcessor: React.FC<Props> = ({
       animation ? currentPercentage : percentage,
       speed,
     );
-    const _currentAngle = computeCurrentAngle(startAngle, endAngle, currentPercentage);
+    setCache({ percentage: currentPercentage });
 
-    strokeArc(_currentAngle, progressColor);
+    strokeArc(
+      computeCurrentAngle(startAngle, endAngle, currentPercentage),
+      progressColor,
+    );
   };
 
   const showText = () => {
