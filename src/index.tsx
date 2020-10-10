@@ -92,8 +92,13 @@ const ReactCanvasProcessor: React.FC<Props> = ({
     drawProgress();
     showText();
 
-    if (equal(percentage, currentPercentage * 100)) {
-      return cancelAnimationFrame(handler);
+    if (
+      equal(percentage, currentPercentage * 100) ||
+      (percentage >= 100 && currentPercentage >= 1)
+    ) {
+      cancelAnimationFrame(handler);
+
+      return setHandler(-1);
     }
 
     setHandler(requestAnimationFrame(draw));
