@@ -1,4 +1,5 @@
 import {
+  equal,
   computeCos,
   computeRadius,
   computeHeight,
@@ -8,6 +9,18 @@ import {
 } from '../src/utils';
 
 describe('Utils file test', () => {
+  it('should get equal when call equal, given 1.0 and 1.00000001', () => {
+    const isEqual = equal(1.0, 1.00000001);
+
+    expect(isEqual).toBeTruthy();
+  });
+
+  it('should get not equal when call equal, given 1.0 and 1.0001', () => {
+    const isEqual = equal(1.0, 1.0001);
+
+    expect(isEqual).toBeFalsy();
+  });
+
   it('should get correct cos when call computeCos', () => {
     const cos = computeCos(0, 2 * Math.PI);
 
@@ -37,6 +50,25 @@ describe('Utils file test', () => {
 
     expect(percentage).toBe(0.01);
   });
+
+  it('should get current percentage when call computeCurrentPercentage, given curren and percentage is equal', () => {
+    const current = 0.8;
+    const percentage = 80;
+    const result = computeCurrentPercentage(percentage, current, 1);
+
+    expect(result).toBe(current);
+  });
+
+  it(
+    'should get correct percentage when call computeCurrentPercentage, given current is greater then percentage',
+    () => {
+      const current = 0.8;
+      const percentage = 70;
+      const result = computeCurrentPercentage(percentage, current, 1);
+
+      expect(result).toBe(0.79);
+    },
+  );
 
   it('should get correct angle when call computeCurrentAngle', () => {
     const angle = computeCurrentAngle(0, Math.PI, 0.5);
