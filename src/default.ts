@@ -1,16 +1,18 @@
+import { PI } from './utils';
+
 const Default = {
   type: 'arc',
-  startAngle: Math.PI,
-  endAngle: 0,
+  startAngle: 5 * PI / 6,
+  endAngle: PI / 6,
   unit: 'vw',
-  width: 100,
+  width: 40,
   speed: 1,
   animation: true,
   lineWidth: 1,
   bgColor: '#fff',
   font: 'serif',
   fontColor: '#468af6',
-  fontSize: 8,
+  fontSize: 3,
   withBaseProgressColor: true,
   baseProgressColor: '#ddd',
   progressColor: '#468af6',
