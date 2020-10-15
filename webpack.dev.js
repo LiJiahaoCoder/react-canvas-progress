@@ -28,9 +28,7 @@ module.exports = {
         enforce: 'pre',
         exclude: /node_modules/,
         use: [
-          {
-            loader: 'tslint-loader',
-          }
+          { loader: 'tslint-loader' },
         ]
       },
       {

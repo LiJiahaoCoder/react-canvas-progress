@@ -1,5 +1,5 @@
 import React from 'react';
-export interface Props {
+export interface ReactCanvasProcessorProps {
     percentage: number;
     text?: string;
     font?: string;
@@ -19,6 +19,8 @@ export interface Props {
     bgColor?: string;
     style?: React.CSSProperties;
     className?: string;
+    onAnimationStart?: () => void;
+    onAnimationEnd?: () => void;
 }
-declare const ReactCanvasProcessor: React.FC<Props>;
+declare const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps>;
 export default ReactCanvasProcessor;
