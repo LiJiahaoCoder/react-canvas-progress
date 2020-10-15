@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useCache } from './hooks/useCache';
 import {
+  noop,
   equal,
   round,
   vwToPx,
@@ -15,7 +16,7 @@ import Default from './default';
 const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
 const cancelAnimationFrame = window.cancelAnimationFrame;
 
-export interface Props {
+export interface ReactCanvasProcessorProps {
   percentage: number;
   text?: string;
   font?: string;
@@ -35,9 +36,11 @@ export interface Props {
   bgColor?: string;
   style?: React.CSSProperties;
   className?: string;
+  onAnimationStart?: () => void;
+  onAnimationEnd?: () => void;
 }
 
-const ReactCanvasProcessor: React.FC<Props> = ({
+const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps> = ({
   text,
   height,
   style,
@@ -57,9 +60,11 @@ const ReactCanvasProcessor: React.FC<Props> = ({
   progressColor = Default.progressColor,
   withBaseProgressColor = Default.withBaseProgressColor,
   baseProgressColor = Default.baseProgressColor,
+  onAnimationStart = noop,
+  onAnimationEnd = noop,
 }) => {
+  let currentPercentage!: number;
   let ctx: CanvasRenderingContext2D;
-  let currentPercentage = 0;
 
   const { cache, setCache } = useCache();
   const [ handler, setHandler ] = useState(-1);
@@ -73,16 +78,24 @@ const ReactCanvasProcessor: React.FC<Props> = ({
     height ? vwToPx(height) : vwToPx(width) / Default.ratio,
   );
   const _lineWidth = round(unit === 'px' ? lineWidth : vwToPx(lineWidth));
-  const _radius = computeRadius(_width, _height, cos);
+  const _radius = computeRadius(_width, _height, _lineWidth, cos);
   const _x = _width / 2;
   const _y = computeHeight(_height, _radius, startAngle, endAngle);
 
   useEffect(() => {
+    onAnimationStart();
+  }, []);
+
+  useEffect(() => {
+    animate();
+  }, [percentage]);
+
+  const animate = () => {
     ctx = canvas.current!.getContext('2d')!;
     ctx.save();
-    draw();
     currentPercentage = cache.percentage;
-  }, [percentage]);
+    draw();
+  };
 
   const draw = () => {
     clear();
@@ -97,6 +110,7 @@ const ReactCanvasProcessor: React.FC<Props> = ({
       (percentage >= 100 && currentPercentage >= 1)
     ) {
       cancelAnimationFrame(handler);
+      onAnimationEnd();
 
       return setHandler(-1);
     }

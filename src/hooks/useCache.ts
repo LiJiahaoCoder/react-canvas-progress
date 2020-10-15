@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { Props } from '../';
+import { ReactCanvasProcessorProps } from '../';
 
 export interface UseCache {
-  cache: Props;
-  setCache: (cache: Props) => void;
+  cache: ReactCanvasProcessorProps;
+  setCache: (cache: ReactCanvasProcessorProps) => void;
 }
 
 export const useCache = (): UseCache => {
-  const [cache, _setCache] = useState<Props>({ percentage: 0 } as Props);
+  const [cache, _setCache] = useState<ReactCanvasProcessorProps>({ percentage: 0 } as ReactCanvasProcessorProps);
 
-  function setCache (_cache: Props) {
+  function setCache (_cache: ReactCanvasProcessorProps) {
     _setCache(pre => ({
       ...pre,
       ..._cache,

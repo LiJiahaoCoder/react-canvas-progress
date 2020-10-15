@@ -50,6 +50,8 @@ ReactDOM.render(
 | bgColor               | `string`              | false    | Color of background, default is `#fff`                      |
 | style                 | `React.CSSProperties` | false    | Style of the wrapper of canvas                              |
 | className             | `string`              | false    | Classname of the wrapper of canvas                          |
+onAnimationStart             | `() => void`              | false    | Call this hook when animation start                          |
+onAnimationEnd             | `() => void`              | false    | Call this hook when animation end                          |
 
 ## Description
 
@@ -63,5 +65,5 @@ The angles of start and end are the same as arc function in canvas 2d. And now i
 - [ ] Support gradient color of progress bar.
 - [ ] Support description text.
 - [x] Support dynamic percentage.
-- [ ] Support lifecycle callback.
+- [x] Support lifecycle callback.
 - [ ] Support padding style of canvas.

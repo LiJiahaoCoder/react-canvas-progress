@@ -28,9 +28,9 @@ describe('Utils file test', () => {
   });
 
   it('should get correct radius when call computeRadius', () => {
-    const radius = computeRadius(40, 40, 1);
+    const radius = computeRadius(40, 40, 2, 1);
 
-    expect(radius).toBe(18);
+    expect(radius).toBe(16);
   });
 
   it('should get correct height when call computeHeight, given the difference between endAngle and startAngle is greater than PI', () => {

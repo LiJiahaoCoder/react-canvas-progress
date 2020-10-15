@@ -6,8 +6,8 @@ export const equal = (a: number, b: number): boolean => abs(a - b) <= EPCILON;
 
 export const computeCos = (startAngle: number, endAngle: number) => Math.cos((endAngle - startAngle) / 2);
 
-export const computeRadius = (width: number, height: number, cos: number) => {
-  return 0.9 * min(width, height) / (1 + cos);
+export const computeRadius = (width: number, height: number, lineWidth: number, cos: number) => {
+  return 0.9 * min(width, height) / (1 + cos) - lineWidth;
 };
 
 export const computeHeight = (height: number, r: number, startAngle: number, endAngle: number) => {
@@ -35,3 +35,5 @@ export const computeCurrentAngle = (
 ) => startAngle + (2 * PI - startAngle + endAngle) * currentProcess;
 
 export const vwToPx = (vw: number) => vw * window.innerWidth / 100;
+
+export const noop = Function.prototype;
