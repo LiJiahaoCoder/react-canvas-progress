@@ -1,15 +1,12 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const prdWebpackConfig = {
+module.exports = {
   mode: 'production',
-  entry: path.resolve(__dirname, './src/index.tsx'),
+  entry: path.resolve(__dirname, './example/index.tsx'),
   output: {
-    path: path.join(__dirname, './lib'),
-    filename: 'index.js',
-    libraryTarget: 'commonjs2'
-  },
-  externals: {
-    react: 'react'
+    path: path.join(__dirname, 'example/dist'),
+    filename: 'main.[hash:6].js',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
@@ -18,7 +15,7 @@ const prdWebpackConfig = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: ['babel-loader']
+        use: ['babel-loader'],
       },
       {
         test: /\.tsx?$/,
@@ -34,7 +31,10 @@ const prdWebpackConfig = {
       },
     ]
   },
-  plugins: []
+  plugins: [
+    new HtmlWebpackPlugin({
+      hash: true,
+      template: path.resolve(__dirname, './example/index.html'),
+    }),
+  ],
 };
-
-module.exports = prdWebpackConfig;

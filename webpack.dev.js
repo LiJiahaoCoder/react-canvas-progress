@@ -11,7 +11,7 @@ module.exports = {
   mode: 'development',
   entry: path.resolve(__dirname, './example/index.tsx'),
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'example/dist'),
     filename: 'main.[hash:6].js',
   },
   resolve: {
@@ -21,7 +21,7 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: ['awesome-typescript-loader'],
+        use: ['babel-loader'],
       },
       {
         test: /\.tsx?$/,
@@ -32,7 +32,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.s[ac]ss$/,
+        test: /\.s?[ac]ss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ]

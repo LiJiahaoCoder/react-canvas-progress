@@ -9,6 +9,20 @@ module.exports = {
                   node: 'current'
               }
           }
-      ]
+      ],
+      '@babel/preset-react',
+      '@babel/preset-typescript',
+  ],
+  plugins: [
+    [
+      "prismjs",
+      {
+        languages: ["tsx"],
+        theme: "default",
+        css: true
+      }
+    ],
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-proposal-object-rest-spread',
   ],
 };
