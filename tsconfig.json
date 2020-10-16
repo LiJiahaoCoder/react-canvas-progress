@@ -2,33 +2,30 @@
   "compilerOptions": {
     "target": "ES2019",
     "module": "ESNext",
-    "allowJs": true,                       /* Allow javascript files to be compiled. */
-    "jsx": "react",                     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
-    "declaration": true,                   /* Generates corresponding '.d.ts' file. */
+    "allowJs": true,
+    "jsx": "react",
+    "declaration": true,
     "declarationDir": "lib",
-    "removeComments": false,                /* Do not emit comments to output. */
-
-    "strict": true,                           /* Enable all strict type-checking options. */
+    "removeComments": false,
+    "strict": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types",
     ],
-    // "types": ["node"],                           /* Type declaration files to be included in compilation. */
+    // "types": ["node"],
     "allowSyntheticDefaultImports": true, 
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true
   },
   "exclude": [
     "node_modules",
-    "dist"
-  ],
-  "files": [
-    "src/*",
-    "example/*",
+    "dist",
+    "__tests__",
+    "lib",
+    "example",
   ],
   "include": [
-    "src/*",
-    "example/*",
+    "src/**/*",
   ]
 }

@@ -1,14 +1,14 @@
 {
   "name": "react-canvas-progress",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "Simple progress component for react",
   "main": "lib/index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
     "commit": "git-cz",
     "start": "webpack-dev-server --config ./webpack.dev.js",
-    "build": "rimraf lib && webpack --config ./webpack.config.js && yarn movedts",
-    "movedts": "cp lib/src/index.d.ts lib/index.d.ts && rimraf lib/src",
+    "build": "rimraf lib && webpack --config ./webpack.config.js",
+    "postbuild": "tsc --emitDeclarationOnly",
     "publish": "yarn build && yarn publish",
     "deploy": "webpack --config ./webpack.prod.js && gh-pages -d example/dist"
   },
@@ -44,6 +44,7 @@
     "@babel/core": "^7.12.1",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.12.1",
     "@babel/preset-typescript": "^7.12.1",

@@ -1,6 +1,6 @@
 const path = require('path');
 
-const prdWebpackConfig = {
+module.exports = {
   mode: 'production',
   entry: path.resolve(__dirname, './src/index.tsx'),
   output: {
@@ -36,5 +36,3 @@ const prdWebpackConfig = {
   },
   plugins: []
 };
-
-module.exports = prdWebpackConfig;

@@ -15,7 +15,7 @@
         "member-ordering": [
             false,
             {
-                "order": "static-first",
+                "order": "statics-first",
                 "alphabetize": false
             }
         ],
