@@ -1,6 +1,6 @@
 # react-canvas-process
 
-React process component drawn by canvas 2d🎨
+React process component drawn by canvas 2d with simple config🎨
 
 ## Installation
 
@@ -10,7 +10,7 @@ npm install react-canvas-process
 yarn add react-canvas-process
 ```
 
-## Usage
+## Basic Usage
 
 ```tsx
 import React from 'react';
@@ -26,6 +26,8 @@ ReactDOM.render(
   document.querySelector('#app'),
 );
 ```
+
+[Click to see more usage🖱](https://lijiahaocoder.github.io/react-canvas-progress/)
 
 ## Props options
 

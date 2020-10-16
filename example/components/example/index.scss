@@ -1,0 +1,9 @@
+.code {
+  max-height: 1200px;
+  overflow: hidden;
+  transition: max-height .6s;
+
+  &.hide {
+    max-height: 0;
+  }
+}

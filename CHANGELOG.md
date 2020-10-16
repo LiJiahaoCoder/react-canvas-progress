@@ -26,3 +26,11 @@
 - 🆕 Add `onAnimationStart` and `onAnimationEnd` lifecycles.
 - ⚙️ Modify default data value.
 - 💿 Perfect examples.
+
+## 0.3.1
+
+`2020-10-17`
+
+- 🆕 Deploy component examples to *[GitHub Page](https://lijiahaocoder.github.io/react-canvas-progress/)*.
+- ⚙️ Replace `awesome-typescript-loader` with `babel`.
+- 💿 Perfect examples.
