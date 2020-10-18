@@ -1,15 +1,17 @@
 {
   "name": "react-canvas-progress",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Simple progress component for react",
   "main": "lib/index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
     "commit": "git-cz",
     "start": "webpack-dev-server --config ./webpack.dev.js",
-    "build": "rimraf lib && webpack --config ./webpack.config.js",
+    "prebuild": "rimraf lib",
+    "build": "webpack --config ./webpack.config.js",
     "postbuild": "tsc --emitDeclarationOnly",
     "publish": "yarn build && yarn publish",
+    "predeploy": "rimraf example/dist",
     "deploy": "webpack --config ./webpack.prod.js && gh-pages -d example/dist"
   },
   "author": "Jiahao Li",

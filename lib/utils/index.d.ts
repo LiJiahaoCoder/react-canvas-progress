@@ -5,6 +5,6 @@ export declare const computeCos: (startAngle: number, endAngle: number) => numbe
 export declare const computeRadius: (width: number, height: number, lineWidth: number, cos: number) => number;
 export declare const computeHeight: (height: number, r: number, startAngle: number, endAngle: number) => number;
 export declare const computeCurrentPercentage: (percentage: number, current: number, speed: number) => number;
-export declare const computeCurrentAngle: (startAngle: number, endAngle: number, currentProcess: number) => number;
+export declare const computeCurrentAngle: (startAngle: number, endAngle: number, currentPercentage: number) => number;
 export declare const vwToPx: (vw: number) => number;
 export declare const noop: Function;

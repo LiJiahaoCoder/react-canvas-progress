@@ -1,6 +1,1 @@
-import { ReactCanvasProcessorProps } from '../';
-export interface UseCache {
-    cache: ReactCanvasProcessorProps;
-    setCache: (cache: ReactCanvasProcessorProps) => void;
-}
-export declare const useCache: () => UseCache;
+export declare const useCache: <T>(initCache: T) => [T, (cache: T) => void];
