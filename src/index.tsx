@@ -66,7 +66,7 @@ const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps> = ({
   let currentPercentage!: number;
   let ctx: CanvasRenderingContext2D;
 
-  const { cache, setCache } = useCache();
+  const [ cache, setCache ] = useCache<ReactCanvasProcessorProps>({ percentage: 0 });
   const [ handler, setHandler ] = useState(-1);
   const cos = computeCos(startAngle, endAngle);
   const canvas = useRef<HTMLCanvasElement>(null);
