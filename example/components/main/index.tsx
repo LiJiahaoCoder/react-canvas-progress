@@ -22,9 +22,7 @@ const Main = () => {
     <Example
       title='默认'
       code={`
-        <ReactCanvasProcess
-          percentage={80}
-        />
+        <ReactCanvasProcess percentage={80} />
       `}
     >
       <ReactCanvasProcess
@@ -157,6 +155,31 @@ const Main = () => {
         <button className='btn btn-primary mr-5' onClick={handleIncreasePercentage}>增加</button>
         <button className='btn btn-secondary' onClick={handleDecreasePercentage}>减少</button>
       </div>
+    </Example>
+
+    <Example
+      title='自定义展示文字'
+      code={`
+      <ReactCanvasProcess
+        progressColor='#ffaa00'
+        text='当前进度：86%'
+        fontSize={2}
+        percentage={86}
+        lineWidth={0.8}
+        startAngle={Math.PI / 2}
+        endAngle={Math.PI / 2}
+      />
+      `}
+    >
+      <ReactCanvasProcess
+        progressColor='#ffaa00'
+        text='当前进度：86%'
+        fontSize={2}
+        percentage={86}
+        lineWidth={0.8}
+        startAngle={Math.PI / 2}
+        endAngle={Math.PI / 2}
+      />
     </Example>
   </div>
 </main>;
