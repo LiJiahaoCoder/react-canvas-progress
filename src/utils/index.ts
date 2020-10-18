@@ -2,37 +2,53 @@ export const { PI, round, min, max, abs } = Math;
 
 export const EPCILON = 0.00001;
 
-export const equal = (a: number, b: number): boolean => abs(a - b) <= EPCILON;
+export const equal = (a: number, b: number) => abs(a - b) <= EPCILON;
 
-export const computeCos = (startAngle: number, endAngle: number) => Math.cos((endAngle - startAngle) / 2);
+export const computeCos = (
+  startAngle: number,
+  endAngle: number,
+) => Math.cos((endAngle - startAngle) / 2);
 
-export const computeRadius = (width: number, height: number, lineWidth: number, cos: number) => {
-  return 0.9 * min(width, height) / (1 + cos) - lineWidth;
-};
+export const computeRadius = (
+  width: number,
+  height: number,
+  lineWidth: number,
+  cos: number,
+) => 0.9 * min(width, height) / (1 + cos) - lineWidth;
 
-export const computeHeight = (height: number, r: number, startAngle: number, endAngle: number) => {
+export const computeHeight = (
+  height: number,
+  r: number,
+  startAngle: number,
+  endAngle: number,
+) => {
   const cos = computeCos(startAngle, endAngle);
+  const actualHeight = 0.95 * height;
 
-  return endAngle - startAngle > PI ? 0.95 * height : 0.95 * height - r * cos;
+  return endAngle - startAngle > PI ? actualHeight : actualHeight - r * cos;
 };
 
-export const computeCurrentPercentage = (percentage: number, current: number, speed: number) => {
-  const currentOfHundred = current * 100;
-  if (equal(percentage, currentOfHundred)) return current;
+export const computeCurrentPercentage = (
+  percentage: number,
+  current: number,
+  speed: number,
+) => {
+  const currentPercentageOfHundred = current * 100;
+  if (equal(percentage, currentPercentageOfHundred)) return current;
 
+  const isIncrease = percentage > currentPercentageOfHundred;
   speed = speed / 100;
-  current = percentage > currentOfHundred ? current + speed : current - speed;
-  const _percentage = min(percentage / 100, 1.0);
-  const _current = min(current, 1.0);
+  percentage = min(percentage / 100, 1.0);
+  current = min(isIncrease ? current + speed : current - speed, 1.0);
 
-  return percentage > currentOfHundred ? min(_current, _percentage) : max(_current, _percentage);
+  return isIncrease ? min(current, percentage) : max(current, percentage);
 };
 
 export const computeCurrentAngle = (
   startAngle: number,
   endAngle: number,
-  currentProcess: number,
-) => startAngle + (2 * PI - startAngle + endAngle) * currentProcess;
+  currentPercentage: number,
+) => startAngle + (2 * PI - startAngle + endAngle) * currentPercentage;
 
 export const vwToPx = (vw: number) => vw * window.innerWidth / 100;
 
