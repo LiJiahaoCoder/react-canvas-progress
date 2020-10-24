@@ -1,6 +1,6 @@
-import { PI } from './utils';
+import { PI } from './utils/math';
 
-const Default = {
+const DEFAULT = {
   type: 'arc',
   startAngle: 5 * PI / 6,
   endAngle: PI / 6,
@@ -19,4 +19,4 @@ const Default = {
   ratio: 2, // width / height
 };
 
-export default Default;
+export default DEFAULT;

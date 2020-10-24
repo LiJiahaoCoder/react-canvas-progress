@@ -1,86 +1,78 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
 import { useCache } from './hooks/useCache';
 import {
   noop,
-  equal,
-  round,
   vwToPx,
-  computeCos,
-  computeCurrentPercentage,
-  computeCurrentAngle,
-  computeHeight,
-  computeRadius,
+  getX,
+  getY,
+  getRadius,
+  getWidth,
+  getHeight,
+  getCurrentAngle,
+  getCurrentPercentage,
+  cancelAnimationFrame,
+  requestAnimationFrame,
 } from './utils';
-import Default from './default';
-
-const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
-const cancelAnimationFrame = window.cancelAnimationFrame;
-
-export interface ReactCanvasProcessorProps {
-  percentage: number;
-  text?: string;
-  font?: string;
-  fontSize?: number;
-  fontColor?: string;
-  withBaseProgressColor?: boolean;
-  baseProgressColor?: string;
-  progressColor?: string;
-  startAngle?: number;
-  endAngle?: number;
-  speed?: number;
-  animation?: boolean;
-  width?: number;
-  height?: number;
-  lineWidth?: number;
-  unit?: 'px' | 'vw';
-  bgColor?: string;
-  style?: React.CSSProperties;
-  className?: string;
-  onAnimationStart?: () => void;
-  onAnimationEnd?: () => void;
-}
+import {
+  round,
+  equal,
+  computeCos,
+} from './utils/math';
+import DEFAULT from './default';
+import { Unit, ReactCanvasProcessorProps } from './type';
 
 const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps> = ({
-  text,
-  height,
+  text: pText,
+  height: cHeight,
   style,
   className,
   percentage,
-  unit = Default.unit,
-  width = Default.width,
-  startAngle = Default.startAngle,
-  endAngle = Default.endAngle,
-  speed = Default.speed,
-  animation = Default.animation,
-  font = Default.font,
-  fontSize = Default.fontSize,
-  fontColor = Default.fontColor,
-  bgColor = Default.bgColor,
-  lineWidth = Default.lineWidth,
-  progressColor = Default.progressColor,
-  withBaseProgressColor = Default.withBaseProgressColor,
-  baseProgressColor = Default.baseProgressColor,
+  unit = DEFAULT.unit as Unit,
+  width: cWidth = DEFAULT.width,
+  startAngle = DEFAULT.startAngle,
+  endAngle = DEFAULT.endAngle,
+  speed = DEFAULT.speed,
+  animation = DEFAULT.animation,
+  font = DEFAULT.font,
+  fontSize: pFontSize = DEFAULT.fontSize,
+  fontColor = DEFAULT.fontColor,
+  bgColor = DEFAULT.bgColor,
+  lineWidth: pLineWidth = DEFAULT.lineWidth,
+  progressColor = DEFAULT.progressColor,
+  withBaseProgressColor = DEFAULT.withBaseProgressColor,
+  baseProgressColor = DEFAULT.baseProgressColor,
   onAnimationStart = noop,
   onAnimationEnd = noop,
 }) => {
   let currentPercentage!: number;
   let ctx: CanvasRenderingContext2D;
 
-  const [ cache, setCache ] = useCache<ReactCanvasProcessorProps>({ percentage: 0 });
-  const [ handler, setHandler ] = useState(-1);
+  const [cache, setCache] = useCache<ReactCanvasProcessorProps>({ percentage: 0 });
+  const [handler, setHandler] = useState(-1);
   const cos = computeCos(startAngle, endAngle);
   const canvas = useRef<HTMLCanvasElement>(null);
 
-  const _width = round(unit === 'px' ? width : vwToPx(width));
-  const _height = round(
-    unit === 'px' ?
-    height || width / Default.ratio :
-    height ? vwToPx(height) : vwToPx(width) / Default.ratio,
+  const width = getWidth(unit, cWidth);
+  const height = getHeight(unit, cHeight, cWidth);
+  const lineWidth = round(unit === 'px' ? pLineWidth : vwToPx(pLineWidth));
+  const radius = getRadius(
+    width,
+    height,
+    lineWidth,
+    cos,
   );
-  const _lineWidth = round(unit === 'px' ? lineWidth : vwToPx(lineWidth));
-  const _radius = computeRadius(_width, _height, _lineWidth, cos);
-  const _x = _width / 2;
-  const _y = computeHeight(_height, _radius, startAngle, endAngle);
+  const x = getX(width);
+  const y = getY(
+    height,
+    radius,
+    startAngle,
+    endAngle,
+  );
 
   useEffect(() => {
     onAnimationStart();
@@ -119,12 +111,12 @@ const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps> = ({
   };
 
   const clear = () => {
-    ctx.clearRect(0, 0, _width, _height);
+    ctx.clearRect(0, 0, width, height);
   };
 
   const fillBackground = () => {
     ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, _width, _height);
+    ctx.fillRect(0, 0, width, height);
 
     ctx.restore();
   };
@@ -132,9 +124,9 @@ const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps> = ({
   const strokeArc = (angle: number, color: string) => {
     ctx.beginPath();
 
-    ctx.lineWidth = _lineWidth;
+    ctx.lineWidth = lineWidth;
     ctx.strokeStyle = color;
-    ctx.arc(_x, _y, _radius, startAngle, angle);
+    ctx.arc(x, y, radius, startAngle, angle);
     ctx.stroke();
 
     ctx.closePath();
@@ -148,7 +140,7 @@ const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps> = ({
   };
 
   const drawProgress = () => {
-    currentPercentage = computeCurrentPercentage(
+    currentPercentage = getCurrentPercentage(
       percentage,
       animation ? currentPercentage : percentage,
       speed,
@@ -156,26 +148,26 @@ const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps> = ({
     setCache({ percentage: currentPercentage });
 
     strokeArc(
-      computeCurrentAngle(startAngle, endAngle, currentPercentage),
+      getCurrentAngle(startAngle, endAngle, currentPercentage),
       progressColor,
     );
   };
 
   const showText = () => {
-    const _fontSize = unit === 'px' ? fontSize : vwToPx(fontSize);
-    const _text = text || `${Number(currentPercentage * 100).toFixed(2)}%`;
-    ctx.font = `${_fontSize}px ${font}`;
+    const fontSize = unit === 'px' ? pFontSize : vwToPx(pFontSize);
+    const text = pText || `${Number(currentPercentage * 100).toFixed(2)}%`;
+    ctx.font = `${fontSize}px ${font}`;
     ctx.fillStyle = fontColor;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(_text, _x, _y);
+    ctx.fillText(text, x, y);
   };
 
   return <div className={className} style={style}>
     <canvas
       ref={canvas}
-      width={_width}
-      height={_height}
+      width={width}
+      height={height}
     ></canvas>
   </div>;
 };

@@ -1,3 +1,4 @@
+// npm package build webpack config
 const path = require('path');
 
 module.exports = {
