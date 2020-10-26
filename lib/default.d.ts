@@ -1,4 +1,4 @@
-declare const Default: {
+declare const DEFAULT: {
     type: string;
     startAngle: number;
     endAngle: number;
@@ -16,4 +16,4 @@ declare const Default: {
     progressColor: string;
     ratio: number;
 };
-export default Default;
+export default DEFAULT;

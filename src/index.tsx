@@ -73,6 +73,8 @@ const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps> = ({
     startAngle,
     endAngle,
   );
+  const isEnd = equal(percentage, currentPercentage * 100) ||
+      (percentage >= 100 && currentPercentage >= 1);
 
   useEffect(() => {
     onAnimationStart();
@@ -95,12 +97,9 @@ const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps> = ({
     fillBackground();
     drawBaseProgress();
     drawProgress();
-    showText();
+    drawText();
 
-    if (
-      equal(percentage, currentPercentage * 100) ||
-      (percentage >= 100 && currentPercentage >= 1)
-    ) {
+    if (isEnd) {
       cancelAnimationFrame(handler);
       onAnimationEnd();
 
@@ -153,7 +152,7 @@ const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps> = ({
     );
   };
 
-  const showText = () => {
+  const drawText = () => {
     const fontSize = unit === 'px' ? pFontSize : vwToPx(pFontSize);
     const text = pText || `${Number(currentPercentage * 100).toFixed(2)}%`;
     ctx.font = `${fontSize}px ${font}`;
