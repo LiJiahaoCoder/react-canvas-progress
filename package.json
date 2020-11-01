@@ -1,6 +1,6 @@
 {
   "name": "react-canvas-progress",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Simple progress component for react",
   "main": "lib/index.js",
   "scripts": {
@@ -54,7 +54,6 @@
     "@commitlint/config-conventional": "^9.1.1",
     "@types/jest": "^26.0.9",
     "@types/prismjs": "^1.16.1",
-    "@types/react": "^16.9.44",
     "@types/react-dom": "^16.9.8",
     "babel-loader": "^8.1.0",
     "babel-plugin-prismjs": "^2.0.1",
