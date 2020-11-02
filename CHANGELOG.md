@@ -34,3 +34,9 @@
 - 🆕 Deploy component examples to *[GitHub Page](https://lijiahaocoder.github.io/react-canvas-progress/)*.
 - ⚙️ Replace `awesome-typescript-loader` with `babel`.
 - 💿 Perfect examples.
+
+## 0.3.6
+
+`2020-11-02`
+
+- 📄 Remove `@types/react` dependency, and ignore more file in `.npmignore`.
