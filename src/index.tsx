@@ -2,7 +2,6 @@ import React, {
   useRef,
   useEffect,
   useState,
-  useCallback,
 } from 'react';
 import { useCache } from './hooks/useCache';
 import {
@@ -167,7 +166,7 @@ const ReactCanvasProcessor: React.FC<ReactCanvasProcessorProps> = ({
       ref={canvas}
       width={width}
       height={height}
-    ></canvas>
+    />
   </div>;
 };
 
